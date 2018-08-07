@@ -145,7 +145,8 @@
 
     block: function() {
       this.$elm.trigger($.modal.BEFORE_BLOCK, [this._ctx()]);
-      this.$body.css('overflow','hidden');
+      if (!this.options.bodyScroll)
+        this.$body.css('overflow','hidden');
       this.$blocker = $('<div class="' + this.options.blockerClass + ' blocker current"></div>').appendTo(this.$body);
       selectCurrent();
       if(this.options.doFade) {
@@ -162,7 +163,7 @@
         this.$blocker.remove();
         this.$blocker = null;
         selectCurrent();
-        if (!$.modal.isActive())
+        if (!$.modal.isActive() &&  !this.options.bodyScroll)
           this.$body.css('overflow','');
       }
     },
@@ -255,7 +256,8 @@
     showClose: true,
     updateHistory: false,
     fadeDuration: null,   // Number of milliseconds the fade animation takes.
-    fadeDelay: 1.0        // Point during the overlay's fade-in that the modal begins to fade in (.5 = 50%, 1.5 = 150%, etc.)
+    fadeDelay: 1.0,        // Point during the overlay's fade-in that the modal begins to fade in (.5 = 50%, 1.5 = 150%, etc.)
+    bodyScroll: false       // Keeps body overflow visible, body scrolling enabled, is set to true. Default is false.
   };
 
   // Event constants
